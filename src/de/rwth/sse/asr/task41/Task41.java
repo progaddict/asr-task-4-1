@@ -23,7 +23,7 @@ public class Task41 {
         }
         result[l][r] = Long.MAX_VALUE;
         for (int m = l; m < r; m++) {
-            long cost = multiplicationCost(l, m) + multiplicationCost(m + 1, r) + rows[l] * columns[m] * rows[r];
+            long cost = multiplicationCost(l, m) + multiplicationCost(m + 1, r) + rows[l] * columns[m] * columns[r];
             if (cost < result[l][r]) {
                 result[l][r] = cost;
                 decision[l][r] = m;
