@@ -10,10 +10,6 @@ public class Task41 {
     private static final long[] columns = {100, 1000, 10, 1, 10000000};
 
     public static void main(String[] args) {
-        for (int i = 0; i < rows.length; i++) {
-            result[i][i] = 0;
-            isMemorized[i][i] = true;
-        }
         System.out.println("cost: " + multiplicationCost(0, rows.length - 1));
         printMultiplicationSequence(0, rows.length - 1);
     }
@@ -25,9 +21,14 @@ public class Task41 {
         if (isMemorized[l][r]) {
             return result[l][r];
         }
+        if (r - l == 1) {
+            result[l][r] = rows[l] * columns[l] * rows[r];
+            isMemorized[l][r] = true;
+            return result[l][r];
+        }
         result[l][r] = Long.MAX_VALUE;
-        for (int m = l + 1; m < r; m++) {
-            long cost = multiplicationCost(l, m) + multiplicationCost(m, r) + rows[l] * columns[m] * rows[r];
+        for (int m = l; m < r; m++) {
+            long cost = multiplicationCost(l, m) + multiplicationCost(m + 1, r) + rows[l] * columns[m] * rows[r];
             if (cost < result[l][r]) {
                 result[l][r] = cost;
                 decision[l][r] = m;
@@ -38,17 +39,21 @@ public class Task41 {
     }
 
     private static void printMultiplicationSequence(int l, int r) {
-        if (l >= r) {
+        if (l > r) {
             return;
         }
-        if (r == l + 1) {
+        if (l == r) {
+            System.out.print("M" + l);
+            return;
+        }
+        if (r - l == 1) {
             System.out.print("(M" + l + " * M" + r + ")");
             return;
         }
         System.out.print("(");
         printMultiplicationSequence(l, decision[l][r]);
         System.out.print(" * ");
-        printMultiplicationSequence(decision[l][r], r);
+        printMultiplicationSequence(decision[l][r] + 1, r);
         System.out.print(")");
     }
 }
