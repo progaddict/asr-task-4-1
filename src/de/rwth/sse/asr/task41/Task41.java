@@ -21,11 +21,6 @@ public class Task41 {
         if (isMemorized[l][r]) {
             return result[l][r];
         }
-        if (r - l == 1) {
-            result[l][r] = rows[l] * columns[l] * rows[r];
-            isMemorized[l][r] = true;
-            return result[l][r];
-        }
         result[l][r] = Long.MAX_VALUE;
         for (int m = l; m < r; m++) {
             long cost = multiplicationCost(l, m) + multiplicationCost(m + 1, r) + rows[l] * columns[m] * rows[r];
